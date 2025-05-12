@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>フォトフレーム2025</title>
+    <script src="https://unpkg.com/aframe@1.2.0/dist/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-face-aframe.prod.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #capture-button {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: red;
+        color: white;
+        border-radius: 10px;
+        border: none;
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="capture-button">📸 写真を撮る</button>
+
+    <a-scene mindar-face embedded color-space="sRGB" renderer="precision: mediump;antialias: true" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: true">
+      <a-assets>
+        <img id="frame" src="frame2025.png" />
+      </a-assets>
+
+      <a-entity mindar-face-target="anchorIndex: 1">
+        <a-image src="#frame" position="0 0 0" scale="1.8 1.8 1"></a-image>
+      </a-entity>
+
+      <a-camera active="true" position="0 0 0"></a-camera>
+    </a-scene>
+
+    <script>
+      document.getElementById('capture-button').addEventListener('click', () => {
+        const scene = document.querySelector('a-scene');
+        scene.components.screenshot.capture('perspective');
+        setTimeout(() => {
+          const screenshot = scene.components.screenshot.canvas.toDataURL("image/png");
+          const link = document.createElement('a');
+          link.href = screenshot;
+          link.download = "photo.png";
+          link.click();
+        }, 100);
+      });
+    </script>
+  </body>
+</html>
