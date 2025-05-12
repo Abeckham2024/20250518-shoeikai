@@ -3,8 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <title>アニメプロジェクトin大泉2025</title>
-    <script src="https://unpkg.com/aframe@1.2.0/dist/aframe.min.js"></script>
+    <!-- ✅ A-Frame を先に読み込む -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <!-- ✅ MindAR を後に読み込む -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-face-aframe.prod.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       #capture-button {
@@ -23,20 +27,33 @@
     </style>
   </head>
   <body>
-    <button id="capture-button">📸 写真撮影</button>
+    <!-- 📸 写真撮影ボタン -->
+    <button id="capture-button">📸 写真を撮る</button>
 
-    <a-scene mindar-face embedded color-space="sRGB" renderer="precision: mediump;antialias: true" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: true">
+    <!-- 🧠 MindARフェイスARシーン -->
+    <a-scene
+      mindar-face
+      embedded
+      color-space="sRGB"
+      renderer="precision: mediump; antialias: true"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: true"
+    >
       <a-assets>
+        <!-- 画像アセット -->
         <img id="frame" src="frame2025.png" />
       </a-assets>
 
+      <!-- 顔に追従するフレーム画像 -->
       <a-entity mindar-face-target="anchorIndex: 1">
         <a-image src="#frame" position="0 0 0" scale="1.8 1.8 1"></a-image>
       </a-entity>
 
+      <!-- カメラ -->
       <a-camera active="true" position="0 0 0"></a-camera>
     </a-scene>
 
+    <!-- 📸 写真撮影機能 -->
     <script>
       document.getElementById('capture-button').addEventListener('click', () => {
         const scene = document.querySelector('a-scene');
