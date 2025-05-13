@@ -26,21 +26,14 @@
     <button id="capture-button">📸 撮影ボタン</button>
 
     <a-scene embedded arjs="sourceType: webcam;">
-      <a-assets>
-        <img id="frame" src="frame.png" />
-      </a-assets>
+     <a-assets>
+    <a-mixin id="red" material="color: red"></a-mixin>
+    <a-mixin id="blue" material="color: blue"></a-mixin>
+    <a-mixin id="cube" geometry="primitive: box"></a-mixin>
+  </a-assets>
 
-      <!-- フォトフレーム画像を常に表示 -->
-      <a-sky
-        src="#frame"
-        position="0 0 -1"
-        width="2"
-        height="1.5"
-        transparent="true"
-      ></a-sky>
-
-      <a-entity camera></a-entity>
-    </a-scene>
+  <a-entity mixin="red blue cube" material="color: green"></a-entity>
+</a-scene>
 
     <script>
       document.getElementById("capture-button").addEventListener("click", () => {
