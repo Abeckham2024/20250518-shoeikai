@@ -5,7 +5,6 @@
     <title>フォトフレームAR</title>
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-screenshot-component@0.8.1/index.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       #capture-button {
@@ -21,24 +20,14 @@
         border: none;
         z-index: 999;
       }
-      
-      a-scene {
-        width: 100%;
-        height: 100%;
-      }
     </style>
   </head>
   <body>
     <button id="capture-button">📸 撮影ボタン</button>
 
-    <a-scene 
-      embedded 
-      arjs="sourceType: webcam;"
-      screenshot="width: 1280; height: 720"
-    >
+    <a-scene embedded arjs="sourceType: webcam;">
       <a-assets>
-        <!-- フレーム画像のURLを絶対パスに変更 -->
-        <img id="frame" src="https://raw.githubusercontent.com/abeckham2024.github.io/20250518-shoeikai/main/frame.png" />
+        <img id="frame" src="frame.png" />
       </a-assets>
 
       <!-- フォトフレーム画像を常に表示 -->
@@ -54,31 +43,16 @@
     </a-scene>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const captureButton = document.getElementById("capture-button");
-        
-        captureButton.addEventListener("click", () => {
-          const scene = document.querySelector("a-scene");
-          
-          // スクリーンショットを取得
-          scene.components.screenshot.capture('perspective');
-          
-          // 少し待ってから画像を保存
-          setTimeout(() => {
-            const canvas = scene.components.screenshot.getCanvas('perspective');
-            if (canvas) {
-              const screenshot = canvas.toDataURL('image/png');
-              const link = document.createElement('a');
-              link.href = screenshot;
-              link.download = 'photo_' + new Date().getTime() + '.png';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            } else {
-              console.error('Canvas could not be generated');
-            }
-          }, 500);
-        });
+      document.getElementById("capture-button").addEventListener("click", () => {
+        const scene = document.querySelector("a-scene");
+        scene.components.screenshot.capture("perspective");
+        setTimeout(() => {
+          const screenshot = scene.components.screenshot.getCanvas("perspective").toDataURL("image/png");
+          const link = document.createElement("a");
+          link.href = screenshot;
+          link.download = "photo.png";
+          link.click();
+        }, 500); // 少し待ってから保存
       });
     </script>
   </body>
